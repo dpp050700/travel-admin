@@ -26,7 +26,7 @@ const BasicLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { userInfo } = useLoginStore();
+  // const { userInfo } = useLoginStore();
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -55,9 +55,9 @@ const BasicLayout: React.FC = () => {
     navigate(key);
   };
 
-  if (!userInfo) {
-    return <Navigate to="/login" replace={true} />;
-  }
+  // if (!userInfo) {
+  //   return <Navigate to="/login" replace={true} />;
+  // }
 
   const renderOpenKeys = () => {
     const arr = pathname.split("/").slice(0, -1);
@@ -108,7 +108,7 @@ const BasicLayout: React.FC = () => {
         >
           {/* {isAdmin ? ( */}
             <Suspense fallback={<Spin size="large" className="content_spin" />}>
-              1123<Outlet />
+              <Outlet />
             </Suspense>
           {/* ) : (
             <NoAuthPage />

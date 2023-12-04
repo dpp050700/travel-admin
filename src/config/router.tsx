@@ -30,7 +30,7 @@ const routes = [
         errorElement: <ErrorPage />,
         children: [
           {
-            index: true,
+            // index: true,
             title: "Dashboard",
             icon: <DashboardOutlined />,
             element: <Dashboard />,
@@ -38,6 +38,12 @@ const routes = [
           {
             path: "form",
             title: "表单页",
+            icon: <EditOutlined />,
+            element: <FormPage />,
+          },
+          {
+            path: "form11",
+            title: "表单页11",
             icon: <EditOutlined />,
             element: <FormPage />,
           },

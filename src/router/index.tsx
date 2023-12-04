@@ -26,13 +26,12 @@ const routes = [
   {
     path: "/",
     element: <App />,
-    loader: authLoader,
     children: [
       {
         errorElement: <ErrorPage />,
         children: [
           {
-            index: true,
+            path: '',
             title: "Dashboard",
             icon: <DashboardOutlined />,
             element: <Dashboard />,
@@ -92,7 +91,7 @@ const routesWithAuth = (routes: any[]) => {
    
     return (
       <Route path={item.path} key={item.path || Math.random()} element={<AuthRoute auth={item.auth} >{item.element ? item.element : <Outlet />}</AuthRoute>}>
-        1123{item?.children && routesWithAuth(item.children)}
+        {item?.children && routesWithAuth(item.children)}
       </Route>
     )
 
