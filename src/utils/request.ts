@@ -7,11 +7,11 @@ interface IRequestOptions {
   params?: AxiosRequestConfig["params"];
   headers?: AxiosRequestConfig["headers"];
 }
-interface IResponse<T = any> {
-  code: number;
-  message: string;
-  data: T;
-}
+// interface IResponse<T = any> {
+//   code: number;
+//   message: string;
+//   data: T;
+// }
 class HttpClient {
   private readonly instance: AxiosInstance;
   constructor(baseURL?: string) {
@@ -34,7 +34,7 @@ class HttpClient {
     data,
     params,
     headers,
-  }: IRequestOptions): Promise<IResponse<T>> {
+  }: IRequestOptions): Promise<T> {
     const response = await this.instance.request<T>({
       url,
       method,
@@ -42,14 +42,12 @@ class HttpClient {
       params,
       headers,
     });
-    return {
-      code: response.status,
-      message: response.statusText,
-      data: response.data,
-    };
+    return response.data;
   }
 }
 
-const http = new HttpClient();
+const BASE_URL = 'https://39.106.93.115/chameleon/api'
+
+const http = new HttpClient(BASE_URL);
 
 export default http;

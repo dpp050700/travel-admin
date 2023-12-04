@@ -1,7 +1,7 @@
 import React, { useState, Suspense } from "react";
 import {
   Outlet,
-  useLoaderData,
+  // useLoaderData,
   useNavigate,
   NonIndexRouteObject,
   useLocation,
@@ -11,7 +11,7 @@ import { MenuProps } from "antd";
 import { Layout, Menu, theme, Spin } from "antd";
 import HeaderComp from "./components/Header";
 import { useLoginStore } from "@stores/index";
-import { routes } from "../config/router";
+import { routes } from "../router";
 import NoAuthPage from "@components/NoAuthPage";
 import "antd/dist/reset.css";
 
@@ -30,7 +30,7 @@ const BasicLayout: React.FC = () => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-  const { isAdmin } = useLoaderData() as any;
+  // const { isAdmin } = useLoaderData() as any;
 
   const getItems: any = (children: RouteType[]) => {
     return children.map((item) => {
@@ -106,13 +106,13 @@ const BasicLayout: React.FC = () => {
             height: `calc(100vh - 128px)`,
           }}
         >
-          {isAdmin ? (
+          {/* {isAdmin ? ( */}
             <Suspense fallback={<Spin size="large" className="content_spin" />}>
-              <Outlet />
+              1123<Outlet />
             </Suspense>
-          ) : (
+          {/* ) : (
             <NoAuthPage />
-          )}
+          )} */}
         </Content>
         <Footer style={{ textAlign: "center" }}>
           react template admin ©2023 Created by Jade

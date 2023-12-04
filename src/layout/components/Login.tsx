@@ -1,23 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { LoginFormPage, ProFormText } from "@ant-design/pro-components";
 import { message } from "antd";
 import { useLoginStore } from "@stores/index";
+import { userLogin } from "@services/auth";
 
-function delay(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
 
 const Login = () => {
-  const { setUserInfo } = useLoginStore();
+  const { setIsLogin, setToken } = useLoginStore();
   const navigate = useNavigate();
   const onFinish = (values: any) => {
-    return delay(1000).then(() => {
-      message.success("登录成功🎉🎉🎉");
-      setUserInfo(values);
+
+    userLogin(values).then((res) => {
+      message.success("登录成功");
+      setIsLogin(true)
+      setToken(res.jwtToken)
       navigate("/", { replace: true });
-    });
+    })
   };
   return (
     <div
@@ -32,7 +32,7 @@ const Login = () => {
         title="Travel-Admin"
       >
         <ProFormText
-          name="username"
+          name="email"
           fieldProps={{
             size: "large",
             prefix: <UserOutlined className={"prefixIcon"} />,
@@ -44,6 +44,7 @@ const Login = () => {
               message: "请输入用户名!",
             },
           ]}
+          initialValue={'kooksee@163.com'}
         />
         <ProFormText.Password
           name="password"
@@ -58,6 +59,7 @@ const Login = () => {
               message: "请输入密码！",
             },
           ]}
+          initialValue={'123456'}
         />
 
         <div
