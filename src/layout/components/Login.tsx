@@ -2,22 +2,20 @@ import React from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { LoginFormPage, ProFormText } from "@ant-design/pro-components";
-import { message } from "antd";
 import { useLoginStore } from "@stores/index";
 import { userLogin } from "@services/auth";
-
+import { message } from "antd";
 
 const Login = () => {
   const { setIsLogin, setToken } = useLoginStore();
   const navigate = useNavigate();
   const onFinish = (values: any) => {
-
     userLogin(values).then((res) => {
       message.success("登录成功");
-      setIsLogin(true)
-      setToken(res.jwtToken)
+      setIsLogin(true);
+      setToken(res.jwtToken);
       navigate("/", { replace: true });
-    })
+    });
   };
   return (
     <div
@@ -26,11 +24,7 @@ const Login = () => {
         height: "100vh",
       }}
     >
-      <LoginFormPage
-        backgroundImageUrl="https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png"
-        onFinish={onFinish as any}
-        title="Travel-Admin"
-      >
+      <LoginFormPage onFinish={onFinish as any} title="Travel-Admin">
         <ProFormText
           name="email"
           fieldProps={{
@@ -44,7 +38,7 @@ const Login = () => {
               message: "请输入用户名!",
             },
           ]}
-          initialValue={'kooksee@163.com'}
+          initialValue={"kooksee@163.com"}
         />
         <ProFormText.Password
           name="password"
@@ -59,7 +53,7 @@ const Login = () => {
               message: "请输入密码！",
             },
           ]}
-          initialValue={'123456'}
+          initialValue={"123456"}
         />
 
         <div

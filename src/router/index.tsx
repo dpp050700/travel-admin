@@ -1,8 +1,8 @@
 import React, { lazy } from "react";
 import ErrorPage from "@components/ErrorPage";
 import LoginPage from "../layout/components/Login";
-import App, { authLoader } from "../App";
-import { createBrowserRouter, Navigate, Route, Outlet } from "react-router-dom";
+import App from "../App";
+import { Navigate, Route, Outlet } from "react-router-dom";
 
 import {
   DashboardOutlined,
@@ -31,7 +31,7 @@ const routes = [
         errorElement: <ErrorPage />,
         children: [
           {
-            path: '',
+            path: "",
             title: "Dashboard",
             icon: <DashboardOutlined />,
             element: <Dashboard />,
@@ -85,20 +85,22 @@ const routes = [
   },
 ];
 
-
 const routesWithAuth = (routes: any[]) => {
   return routes.map((item) => {
-   
     return (
-      <Route path={item.path} key={item.path || Math.random()} element={<AuthRoute auth={item.auth} >{item.element ? item.element : <Outlet />}</AuthRoute>}>
+      <Route
+        path={item.path}
+        key={item.path || Math.random()}
+        element={
+          <AuthRoute auth={item.auth}>
+            {item.element ? item.element : <Outlet />}
+          </AuthRoute>
+        }
+      >
         {item?.children && routesWithAuth(item.children)}
       </Route>
-    )
-
-
-  })
-}
+    );
+  });
+};
 
 export { routes, routesWithAuth };
-
-// export default createBrowserRouter(routes);
