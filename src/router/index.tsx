@@ -101,6 +101,4 @@ const routesWithAuth = (routes: any[]) => {
 
 export { routes, routesWithAuth };
 
-// export default routesWithAuth(routes)
-
 // export default createBrowserRouter(routes);
