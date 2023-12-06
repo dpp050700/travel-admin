@@ -1,23 +1,20 @@
 import React, { useState, Suspense } from "react";
 import {
   Outlet,
-  // useLoaderData,
   useNavigate,
   NonIndexRouteObject,
   useLocation,
-  Navigate,
 } from "react-router-dom";
 import { MenuProps } from "antd";
 import { Layout, Menu, theme, Spin } from "antd";
 import HeaderComp from "./components/Header";
-import { useLoginStore } from "@stores/index";
 import { routes } from "../router";
-import NoAuthPage from "@components/NoAuthPage";
 import "antd/dist/reset.css";
 
 type RouteType = NonIndexRouteObject & {
   title: string;
   icon: React.ReactElement;
+  meta?: { hiddenMenu: boolean };
 };
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -26,11 +23,9 @@ const BasicLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  // const { userInfo } = useLoginStore();
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-  // const { isAdmin } = useLoaderData() as any;
 
   const getItems: any = (children: RouteType[]) => {
     return children.map((item) => {
@@ -43,21 +38,21 @@ const BasicLayout: React.FC = () => {
         icon: item.icon,
         label: item.title,
         children: item.children ? getItems(item.children) : null,
+        meta: item.meta,
       };
     });
   };
 
   const menuItems: MenuProps["items"] = getItems(
-    routes[0].children![0].children.filter((item) => item.path !== "*")
+    routes[0].children![0].children.filter(
+      (item) =>
+        item.path !== "*" && (!item.meta || item.meta.hiddenMenu === false)
+    )
   );
 
   const onMenuClick: MenuProps["onClick"] = ({ key }) => {
     navigate(key);
   };
-
-  // if (!userInfo) {
-  //   return <Navigate to="/login" replace={true} />;
-  // }
 
   const renderOpenKeys = () => {
     const arr = pathname.split("/").slice(0, -1);
@@ -106,17 +101,11 @@ const BasicLayout: React.FC = () => {
             height: `calc(100vh - 128px)`,
           }}
         >
-          {/* {isAdmin ? ( */}
-            <Suspense fallback={<Spin size="large" className="content_spin" />}>
-              <Outlet />
-            </Suspense>
-          {/* ) : (
-            <NoAuthPage />
-          )} */}
+          <Suspense fallback={<Spin size="large" className="content_spin" />}>
+            <Outlet />
+          </Suspense>
         </Content>
-        <Footer style={{ textAlign: "center" }}>
-          react template admin ©2023 Created by Jade
-        </Footer>
+        <Footer style={{ textAlign: "center" }}>travel admin @2023</Footer>
       </Layout>
     </Layout>
   );

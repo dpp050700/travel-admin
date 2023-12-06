@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import { message } from "antd";
+import useLoginStore from "@stores/login";
 interface IRequestOptions {
   url: string;
   method: AxiosRequestConfig["method"];
@@ -16,11 +17,21 @@ class HttpClient {
   private readonly instance: AxiosInstance;
   constructor(baseURL?: string) {
     this.instance = axios.create({ baseURL });
+
+    this.instance.interceptors.request.use(this.handleUserAuth);
+
     this.instance.interceptors.response.use(
       this.handleSuccessResponse,
       this.handleErrorResponse
     );
   }
+
+  private handleUserAuth(request: any) {
+    console.log(request);
+    request.headers["Authorization"] = useLoginStore.getState().token;
+    return request;
+  }
+
   private handleSuccessResponse(response: AxiosResponse): AxiosResponse {
     return response;
   }
@@ -46,7 +57,7 @@ class HttpClient {
   }
 }
 
-const BASE_URL = 'https://39.106.93.115/chameleon/api'
+const BASE_URL = "https://39.106.93.115/chameleon/api";
 
 const http = new HttpClient(BASE_URL);
 
